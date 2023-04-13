@@ -44,6 +44,7 @@ usersRouter.post("/createUser", async (req, res) => {
             data: user
         })
     } catch (err) {
+        mongoose = require("mongoose")
         if (err instanceof mongoose.Error.ValidationError) {
             return res.status(400).send({ 
                 success: false,

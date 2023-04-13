@@ -2,11 +2,11 @@ import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import TroubleTickets from './pages/TroubleTickets';
-import Orders from './pages/Orders';
-import ShipmentTracking from './pages/ShipmentTracking'
-import InventoryManagement from './pages/InventoryManagement'
+import Home from './components/Home';
+import TroubleTickets from './components/TroubleTickets';
+import Orders from './components/Orders';
+import ShipmentTracking from './components//ShipmentTracking'
+import InventoryManagement from './components/InventoryManagement'
 
 function App() {
   return (
