@@ -7,9 +7,9 @@
   font-family: 'Lato', sans-serif;
 }
 
-.home,
-.reports,
-.products {
+.orders,
+.shipmenttracking
+.inventorytracking {
   display: flex;
   height: 90vh;
   align-items: center;

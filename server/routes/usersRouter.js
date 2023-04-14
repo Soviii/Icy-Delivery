@@ -109,7 +109,28 @@ usersRouter.get("/login", async (req, res) => {
         return res.status(500).send({ error: "Internal Server Error" });
     }
 });
+usersRouter.get("/getUser", async (req, res) => {
+    try{
+        const id = req.query.id;
+        const user = await UserModel.findById(id);
+        if(!user){
+            return res.status(401).send({
+                success: false,
+                message: "Invalid id",
+                data: null
+            });
+        } else{
+            return res.status(200).send({
+                success: true,
+                message: "User Found",
+                data: user
+            });
+        }
 
+        } catch (err){
+            return res.status(500).send({ error: "Internal Server Error" });
+    }
+});
 /* 
     update user info by using id to find them
     EX: http://localhost:4000/users/updateUserInfo?id=<id> 
