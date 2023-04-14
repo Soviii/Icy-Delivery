@@ -26,15 +26,14 @@ function Home() {
     }
     await timeout(1000)
   };
-  console.log(localStorage.currentUser)
-  console.log(currentUser)
+
   if (currentUser != null && localStorage.currentUserID == null){
     localStorage.currentUserID = currentUser.data._id
     alert("Logged In")
   }
 
   return (
-    <div className="home">
+    <div className="Login">
       <Form>
         <Form.Group size="lg" controlId="email">
           <Form.Label>Email</Form.Label>
@@ -53,7 +52,7 @@ function Home() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-          <Button block="true" size="lg" onClick={() => validateLogin()} disabled={!validateForm()}>
+          <Button block="true" onClick={() => validateLogin()} disabled={!validateForm()}>
             Login
           </Button>
       </Form>

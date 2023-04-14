@@ -9,6 +9,7 @@ import ShipmentTracking from './components//ShipmentTracking'
 import InventoryManagement from './components/InventoryManagement'
 
 function App() {
+  localStorage.clear()
   return (
     <>
       <Router>

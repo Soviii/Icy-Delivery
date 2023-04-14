@@ -23,6 +23,7 @@ usersRouter.get("/getAllUsers", async (req, res) => {
 */
 usersRouter.post("/createUser", async (req, res) => {
     try {
+        console.log(req.body)
         if(await CheckIfAccountExist({email: req.body.email})){
             return res.status(400).send({ 
                 success: false,
