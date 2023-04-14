@@ -1,0 +1,19 @@
+.orders{
+    border: 3px;
+    padding: 20px;
+}
+.child{
+    width: 50%;
+    float: left;
+    padding: 20px;
+    border: 2px;
+}
+.button{
+    padding: 20px;
+}
+.orderformheader {
+    font-size: 30px;
+  }
+.shippingaddressheader{
+    font-size: 30px;
+}

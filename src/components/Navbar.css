@@ -3,7 +3,11 @@
   height: 80px;
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: right;
+}
+
+.app-title{
+  color: #f5f5f5;
 }
 
 .menu-bars {
