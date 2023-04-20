@@ -9,11 +9,13 @@ import { IconContext } from 'react-icons';
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
 
-  const showSidebar = () => setSidebar(!sidebar);
-
+  const showSidebar = () => {
+    setSidebar(!sidebar);
+    console.log()
+  };
   return (
     <>
-      <IconContext.Provider value={{ color: '#fff' }}>
+      <IconContext.Provider value={{ color: 'black' }}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
@@ -37,6 +39,7 @@ function Navbar() {
                 </li>
               );
             })}
+            {/* check if useState is filled or not */}
           </ul>
         </nav>
       </IconContext.Provider>
