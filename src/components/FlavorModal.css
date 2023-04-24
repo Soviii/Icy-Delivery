@@ -1,0 +1,17 @@
+.flavors {
+  list-style: none;
+}
+
+.flavor-title {
+  justify-content: center;
+  font-size: 16px;
+}
+
+.images {
+  width: 100%;
+  height: 100%;
+}
+
+.description {
+  font-size: 14px;
+}
