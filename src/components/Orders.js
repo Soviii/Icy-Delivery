@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Form from "react-bootstrap/Form";
 import TableRows from "./TableRows"
 import "./Orders.css"
+import Login from './Login';
 
 function Orders() {
 
@@ -19,7 +20,7 @@ function Orders() {
   const [rowsData, setRowsData] = useState([]);
   const [checked, setChecked] = useState(true);
 
-  const loggedInUserID = localStorage.currentUserID
+  const loggedInUserID = localStorage.currentUserID;
 
   useEffect(() => {
     Axios.get(`http://localhost:4000/users/getUser?id=${loggedInUserID}`).then((response) => {
@@ -29,7 +30,11 @@ function Orders() {
   }, [setCurrentUser]);
 
   if (isLoading) {
-    return <div className='orders'>Please Log In</div>;
+    return (
+      <div className='orders'>
+        <h2 style={{ display: 'flex', justifyContent: 'center' }}>Please Log In</h2>
+      </div>
+    );
   }
 
   const handleCheckBoxChange = () => {
@@ -189,7 +194,6 @@ function Orders() {
           </div>
         </div>
       </div>
-
     </div>
 
   );

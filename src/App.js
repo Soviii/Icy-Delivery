@@ -9,17 +9,34 @@ import Orders from './components/Orders';
 import ShipmentTracking from './components//ShipmentTracking';
 import InventoryManagement from './components/InventoryManagement';
 import UnknownPage from './components/UnknownPage';
+import Logout from './components/Logout';
+import PrivateRoute from './components/PrivateRouteUser/index';
 
 function App() {
+  
   return (
     <>
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/login' element={<Login />} />
           <Route path='/' exact element={<Home />} />
-          <Route path='/troubletickets' element={<TroubleTickets />} />
-          <Route path='/orders' element={<Orders />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/logout' element={
+          <PrivateRoute>
+            <Logout />
+          </PrivateRoute>
+          } 
+          />
+          <Route path='/troubletickets' element={
+          <PrivateRoute>
+            <TroubleTickets />
+          </PrivateRoute>
+          } />
+          <Route path='/orders' element={
+          <PrivateRoute>
+            <Orders />
+          </PrivateRoute>
+          } />
           <Route path='/shipmenttracking' element={<ShipmentTracking />} />
           <Route path='/inventorymanagement' element={<InventoryManagement />} />
           <Route path='*' element={<UnknownPage />} />
