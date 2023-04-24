@@ -194,8 +194,8 @@ ticketsRouter.get("/getAllPendingTicketsByCustomerID", async (req, res) => {
 
 
 /*
-    retrieves all tickets that are currently pending
-    EX: http://localhost:4000/tickets/getAllPendingTicketsByCustomerID?customerID=<customer ID>
+    retrieves all tickets that are currently resolved
+    EX: http://localhost:4000/tickets/getAllResolvedTicketsByCustomerID?customerID=<customer ID>
 */
 ticketsRouter.get("/getAllResolvedTicketsByCustomerID", async (req, res) => {
     try {
@@ -244,7 +244,7 @@ ticketsRouter.get("/getAllResolvedTicketsByCustomerID", async (req, res) => {
 
 
 /*
-    retrieves all tickets that are currently pending
+    retrieves all tickets that are currently under review
     EX: http://localhost:4000/tickets/getAllUnderReviewTicketsByCustomerID?customerID=<customer ID>
 */
 ticketsRouter.get("/getAllUnderReviewTicketsByCustomerID", async (req, res) => {
