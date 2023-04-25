@@ -10,6 +10,7 @@ const orderDate = `${month}-${day}-${year} T${hours}:${minutes}`; //EX: "04-09-2
 
 const TicketSchema = new mongoose.Schema({
     customerID: { type: String, required: true },
+    title: {type: String, required: true, default: "Ticket Title"},
     description: { type: String, required: true },
     status: { type: String, required: true },
     date: { type: String, default: orderDate }

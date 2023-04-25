@@ -62,8 +62,9 @@ ticketsRouter.get("/getAllPendingTickets", async (req, res) => {
 
 
         if (pendingTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: "no pending tickets available"
             })
         }
@@ -92,8 +93,9 @@ ticketsRouter.get("/getAllResolvedTickets", async (req, res) => {
 
 
         if (resolvedTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: "no resolved tickets available"
             })
         }
@@ -121,8 +123,9 @@ ticketsRouter.get("/getAllUnderReviewTickets", async (req, res) => {
 
 
         if (underEvalTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: `no "under evaluation" tickets available`
             });
         }
@@ -143,7 +146,7 @@ ticketsRouter.get("/getAllUnderReviewTickets", async (req, res) => {
 
 /*
     retrieves all tickets that are currently resolved
-    EX: http://localhost:4000/tickets/getAllRTicketsByCustomerID?customerID=<customer ID>
+    EX: http://localhost:4000/tickets/getAllPendingTicketsByCustomerID?customerID=<customer ID>
 */
 ticketsRouter.get("/getAllPendingTicketsByCustomerID", async (req, res) => {
     try {
@@ -170,8 +173,9 @@ ticketsRouter.get("/getAllPendingTicketsByCustomerID", async (req, res) => {
         });
 
         if (pendingTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: "no pending tickets available for customer"
             })
         }
@@ -222,8 +226,9 @@ ticketsRouter.get("/getAllResolvedTicketsByCustomerID", async (req, res) => {
         });
 
         if (resolvedTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: "no resolved tickets available for customer"
             })
         }
@@ -273,8 +278,9 @@ ticketsRouter.get("/getAllUnderReviewTicketsByCustomerID", async (req, res) => {
         });
 
         if (resolvedTickets.length == 0){
-            return res.status(404).send({
-                success: false,
+            return res.status(200).send({
+                success: true,
+                data: [],
                 message: `no under review tickets available for customer`
             })
         }

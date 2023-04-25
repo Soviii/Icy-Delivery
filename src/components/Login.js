@@ -51,7 +51,6 @@ function Login() {
       return (
         <div className="login-status failure">
           <p>Invalid credentials.</p>
-		  <p>{localStorage.userIsLoggedIn}</p>
         </div>
       )
     } else {
