@@ -81,7 +81,7 @@ usersRouter.get("/login", async (req, res) => {
     try {
         const email = req.query.email;
         const password = req.query.password;
-        
+
         const user = await UserModel.findOne({ email });
         if (!user) { // meaning user does not exist
         return res.status(401).send({
@@ -143,6 +143,14 @@ usersRouter.patch("/updateUserInfo", async (req, res) => { // patch request inst
         const userId = req.query.id;
         const newInfo = req.body;
 
+        const validNewInfo = await RegexCheckForInputs(newInfo);
+
+        if(validNewInfo.success === false){
+            return res.status(400).send({
+                success: false, 
+                message: validNewInfo.message
+            })
+        }
         /* update user info */
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId, 
@@ -256,7 +264,7 @@ const RegexCheckForInputs = async (details) => {
     if (details.password.length <= 0 || !passwordRegex.test(details.password)) {
         return { 
             success: false, 
-            message: "Invalid password" 
+            message: "Invalid password\n\nMust follow these requirements:\nAt least one digit\nAt least one uppercase letter\nAt least one lowercase letter\nAt least 8 characters" 
         };
     }
 
