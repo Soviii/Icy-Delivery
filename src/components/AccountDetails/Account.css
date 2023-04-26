@@ -1,0 +1,46 @@
+   .account-details-container {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .account-details-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .account-details-container .column {
+    flex: 1;
+  }
+  
+  .account-details-container .personal-info {
+    margin-right: 1rem;
+  }
+  
+  .account-details-container .personal-info input[type="password"],
+  .account-details-container .personal-info input[type="text"] {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .account-details-container .personal-info button {
+    display: block;
+    margin-top: 1rem;
+  }
+  
+  .account-details-container .address-info p {
+    margin-bottom: 1rem;
+  }
+  
+  .account-details-container .update-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .account-details-container .update-buttons button {
+    margin: 0 1rem;
+  }
+  
