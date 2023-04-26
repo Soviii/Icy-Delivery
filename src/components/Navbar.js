@@ -26,7 +26,7 @@ function Navbar() {
           </Link>
           <h1 className='app-title'>Icy Delivery</h1>
         </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{zIndex: 99}}>
   <ul className='nav-menu-items' onClick={showSidebar}>
     <li className='navbar-toggle'>
       <Link to='#' className='menu-bars'>
@@ -44,12 +44,21 @@ function Navbar() {
         </li>
       );
     }) : (
+      <>
       <li className='nav-text'>
         <Link to='/login'>
           <FaIcons.FaSignInAlt />
           <span>Login</span>
         </Link>
       </li>
+
+      <li className='nav-text'>
+         <Link to='/create-account'>
+          <FaIcons.FaUserPlus />
+          <span>Create Account</span>
+        </Link>
+      </li>
+    </>
     )}
   </ul>
 </nav>
