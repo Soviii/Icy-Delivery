@@ -39,62 +39,6 @@ const TroubleTickets = () => {
     getAllOfUsersTickets();
   }, []);
   
-  
-
-  
-  const tickets = [
-    {
-      id: 1,
-      name: 'Slow Internet Speed',
-      description: 'Internet is very slow',
-      status: 'Resolved',
-    },
-    {
-      id: 2,
-      name: 'Connection Drops Frequently',
-      description: 'My connection drops frequently',
-      status: 'Under Evaluation',
-    },
-    {
-      id: 3,
-      name: 'No Internet Connection',
-      description: 'I am unable to connect to the internet',
-      status: 'Pending',
-    },
-    {
-      id: 4,
-      name: 'Email Not Working',
-      description: 'I cannot send or receive emails',
-      status: 'Under Evaluation',
-    },
-    {
-      id: 5,
-      name: 'Printer Not Working',
-      description: 'My printer is not printing properly',
-      status: 'Pending',
-    },
-    {
-      id: 6,
-      name: 'Computer Won\'t Start',
-      description: 'My computer won\'t turn on',
-      status: 'Resolved',
-    },
-    {
-      id: 7,
-      name: 'Software Installation Issues',
-      description: 'I am having trouble installing software',
-      status: 'Pending',
-    },
-    {
-      id: 8,
-      name: 'Security Concerns',
-      description: 'I am concerned about the security of my device',
-      status: 'Under Evaluation',
-    },
-  ];
-  
-
-  
 
   return (
     
@@ -104,12 +48,20 @@ const TroubleTickets = () => {
         <h2 style={{textAlign: 'center', padding: '20px'}}>Previous Tickets</h2>
       </Row>
       <Row>
-        {usersTickets.map((ticket) => (
-          <Col key={ticket.id}>
-            <TroubleTicketCard ticket={ticket} />
-          </Col>
-        ))}
+        {/* immediately invoked function expression (IIFE) */}
+        {(() => {
+          if (usersTickets.length === 0) {
+            return <p>No tickets present</p>;
+          } else {
+            return usersTickets.map((ticket) => (
+              <Col key={ticket.id}>
+                <TroubleTicketCard ticket={ticket} />
+              </Col>
+            ));
+          }
+        })()}
       </Row>
+
     </div>
   );
   

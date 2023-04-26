@@ -37,22 +37,23 @@ const CreateTicket = () => {
   const isDisabled = title === '' || description === '';
 
   return (
-    <div style={{ margin: '1rem' }}>
-      <h2>Create New Ticket</h2>
+    <div style={{ marginTop: "3rem" }}>
+      <h2 style={{ margin: '0 auto', textAlign: 'center' }}>Create New Ticket</h2>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridName">
             <Form.Label>Title</Form.Label>
-            <Form.Control type="text" placeholder="Enter name" value={title} onChange={(e) => setTitle(e.target.value)} />
+            
+            <Form.Control type="text" placeholder="Enter name" value={title} onChange={(e) => setTitle(e.target.value)} style={{ width: "400px" }} />
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridDescription">
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={(e) => setDescription(e.target.value)} style={{ width: "500px" }} />
         </Form.Group>
 
-        <Button variant="primary" type="submit" disabled={isDisabled}>
+        <Button variant="primary" type="submit" disabled={isDisabled} style={{ marginBottom: "100px"}}>
           Submit
         </Button>
       </Form>

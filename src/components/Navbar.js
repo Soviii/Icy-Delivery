@@ -44,12 +44,21 @@ function Navbar() {
         </li>
       );
     }) : (
+      <>
       <li className='nav-text'>
         <Link to='/login'>
           <FaIcons.FaSignInAlt />
           <span>Login</span>
         </Link>
       </li>
+
+      <li className='nav-text'>
+         <Link to='/create-account'>
+          <FaIcons.FaUserPlus />
+          <span>Create Account</span>
+        </Link>
+      </li>
+    </>
     )}
   </ul>
 </nav>

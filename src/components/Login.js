@@ -8,9 +8,9 @@ import "./Login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [currentUser, setCurrentUser] = useState();
   const [loginSuccess, setLoginSuccess] = useState(null);
   const navigate = useNavigate();
+
   function timeout(delay){
     return new Promise( res => setTimeout(res, delay) );
   }
@@ -19,19 +19,42 @@ function Login() {
     return email.length > 0 && password.length > 0;
   }
   
+  /* encodes password for properly passing as query parameter */
+  const encodePassword = async () => {
+    const encodedPassword = password
+      .replace(/ /g, '%20')
+      .replace(/"/g, '%22')
+      .replace(/'/g, '%27')
+      .replace(/</g, '%3C')
+      .replace(/>/g, '%3E')
+      .replace(/&/g, '%26')
+      .replace(/\+/g, '%2B')
+      .replace(/,/g, '%2C')
+      .replace(/\//g, '%2F')
+      .replace(/:/g, '%3A')
+      .replace(/;/g, '%3B')
+      .replace(/=/g, '%3D')
+      .replace(/\?/g, '%3F')
+      .replace(/@/g, '%40')
+      .replace(/#/g, '%23');
+    return encodedPassword;
+  }
+   
   const validateLogin = async () => {
     try {
-        const response = await Axios.get(`http://localhost:4000/users/login?email=${email}&password=${password}`);
-        // setCurrentUser(response.data);
+        // console.log(email);
+        // console.log(password);
+        // console.log(`http://localhost:4000/users/login?email=${email}&password=${password}`)
+        const response = await Axios.get(`http://localhost:4000/users/login?email=${email}&password=${await encodePassword()}`);
         setLoginSuccess(true);
         console.log(response);
         localStorage.currentUserID = response.data.data._id;
         localStorage.userIsLoggedIn = "true";
-        console.log("set to true");
+        
         setTimeout(() => {
           navigate('/');
           }, 1000);
-		  
+          
     } catch (err) {
         console.log(err);
         setLoginSuccess(false);
@@ -78,9 +101,14 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button block="true" onClick={() => {validateLogin()}} disabled={!validateForm()}>
-          Login
-        </Button>
+        <div className="d-flex justify-content-between align-items-center">
+          <Button block="true" onClick={() => {validateLogin()}} disabled={!validateForm()} style={{ margin: "20px" }}>
+            Login
+          </Button>
+          <Button variant="secondary" onClick={() => navigate('/create-account')} style={{ margin: "20px" }}>
+            Create Account
+          </Button>
+        </div>
       </Form>
       {showLoginStatus()}
     </div>
