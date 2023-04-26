@@ -12,7 +12,7 @@ import UnknownPage from './components/UnknownPage';
 import Logout from './components/Logout';
 import CreateAccount from './components/CreateAccount';
 import PrivateRoute from './components/PrivateRouteUser/index';
-
+import Account from './components/AccountDetails/Account';
 
 function App() {
   
@@ -48,7 +48,12 @@ function App() {
             </PrivateRoute>
           } />
 
-
+          <Route path='/account' element={
+            <PrivateRoute>
+              <Account />
+            </PrivateRoute>
+          } />
+          
           <Route path='/create-account' element={
             <PrivateRoute pageToLoad={"create-account"}>
               <CreateAccount />

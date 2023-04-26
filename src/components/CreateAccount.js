@@ -137,7 +137,7 @@ function CreateAccount() {
               <Modal.Header closeButton>
                 <Modal.Title style={{ marginLeft: "202px" }}>Error</Modal.Title>
               </Modal.Header>
-              <Modal.Body className="text-center">{errorMessage}</Modal.Body>
+              <Modal.Body className="text-center" style={{ whiteSpace: "pre-wrap" }}>{errorMessage}</Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={handleModalClose}>
                   Close

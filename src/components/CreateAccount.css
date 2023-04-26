@@ -1,7 +1,7 @@
 .create-account-container {
     background: #ECECEC;
     border-radius: 2%;
-    padding: 100px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
