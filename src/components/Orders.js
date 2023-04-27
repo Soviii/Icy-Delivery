@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Form from "react-bootstrap/Form";
-import TableRows from "./TableRows"
+import FlavorModal from "./FlavorModal";
+import TableRows from "./TableRows";
 import "./Orders.css"
 import Login from './Login';
 
-function Orders() {
+const Orders = () => {
 
   const [currentUser, setCurrentUser] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -19,8 +20,59 @@ function Orders() {
   const [shippingCountry, setShippingCountry] = useState("");
   const [rowsData, setRowsData] = useState([]);
   const [checked, setChecked] = useState(true);
+  const [selectedFlavor, setSelectedFlavor] = useState("");
+  const [currentQuantity, setQuantity] = useState(0);
+  const [newOrder, setNewOrder] = useState([]);
 
   const loggedInUserID = localStorage.currentUserID;
+
+  var flavors = [
+    {
+        name: "Butter Pecan",
+        description: "Butter-flavored vanilla ice cream and chopped, toasted pecans.",
+        imageURL: "butter pecan"
+    },
+    {
+        name: "Chocolate Chip",
+        description: "Classic vanilla with chocolate chips.",
+        imageURL: "chocolate chip"
+    },
+    {
+        name: "Chocolate",
+        description: "Classic chocolate.",
+        imageURL: "chocolate"
+    },
+    {
+        name: "Mint Chocolate Chip",
+        description: "Cool and refreshing mint with chocolate chips mixed in.",
+        imageURL: "mint chocolate chip"
+    },
+    {
+        name: "Neopolitan",
+        description: "A blend of vanilla, chocolate, and strawberry.",
+        imageURL: "neopolitan"
+    },
+    {
+        name: "Rocky Road",
+        description: "Rich chocolate ice cream with nuts and marshmallows blended in.",
+        imageURL: "rocky road"
+    },
+    {
+        name: "Strawberry",
+        description: "Classic strawberry.",
+        imageURL: "strawberry"
+    },
+    {
+        name: "Ube",
+        description: "A sweet, nutty, and slightly floral taste.",
+        imageURL: "ube"
+    },
+    {
+        name: "Vanilla",
+        description: "Good old classic vanilla.",
+        imageURL: "vanilla"
+    }
+]
 
   useEffect(() => {
     Axios.get(`http://localhost:4000/users/getUser?id=${loggedInUserID}`).then((response) => {
@@ -62,6 +114,9 @@ function Orders() {
   }
 
   const addTableRows = () => {
+    setSelectedFlavor("");
+    setQuantity(0);
+
     const rowsInput = {
       flavor: '',
       quantity: ''
@@ -75,18 +130,22 @@ function Orders() {
     setRowsData(rows);
   }
 
-  const handleTableChange = (index, evnt) => {
-    const { name, value } = evnt.target;
+  const handleTableSubmit = (index, evnt) => {
+    const {name, value} = evnt.target;
+    console.log(name);
     const rowsInput = [...rowsData];
     rowsInput[index][name] = value;
     setRowsData(rowsInput);
   }
 
+  const handleUpdateOrder = (newOrder) => {
+    console.log(newOrder);
+    setNewOrder(newOrder);
+  };
 
   return (
     <div className='orders'>
-
-      <div className='child'>
+      {/* <div className='child'>
         <p className='shippingaddressheader'>Shipping Address</p>
         <Form>
           <Form.Group size="lg" controlId="email">
@@ -171,27 +230,41 @@ function Orders() {
         <div className="button">
           <button type="submit" className="btn btn-primary">Checkout</button>
         </div>
-      </div>
+      </div> */}
 
       <div className='child'>
         <p className="orderformheader">Order Form</p>
         <div className="row">
-          <div className="col-sm-8">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Flavor</th>
-                  <th>Quantity</th>
-                  <th><button className="btn btn-outline-success" onClick={addTableRows} >+</button></th>
-                </tr>
-              </thead>
-              <tbody>
-                <TableRows rowsData={rowsData} deleteTableRows={deleteTableRows} handleChange={handleTableChange} />
-              </tbody>
-            </table>
-          </div>
-          <div className="col-sm-4">
-          </div>
+          <div className="col-2"></div>
+            <div className="col-8">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Flavor</th>
+                    <th>Quantity</th>
+                    <th><button className="btn btn-outline-success" onClick={addTableRows} >+</button></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <div className="orders-container">
+                  {newOrder.map((item, index) => (
+    <div key={index}>
+      <h4>{item.flavor}</h4>
+      <p>{item.quantity}</p>
+    </div>
+  ))}
+                  </div>
+                  <TableRows 
+                    handleUpdateOrder={handleUpdateOrder}
+                    flavors={flavors}
+                    rowsData={rowsData}
+                    deleteTableRows={deleteTableRows}
+                    handleChange={handleTableSubmit}
+                  />
+                </tbody>
+              </table>
+            </div>
+          <div className="col-2"></div>
         </div>
       </div>
     </div>

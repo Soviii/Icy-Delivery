@@ -1,11 +1,7 @@
 .orders{
     border: 3px;
-    padding: 20px;
 }
 .child{
-    width: 50%;
-    float: left;
-    padding: 20px;
     border: 2px;
 }
 .button{
