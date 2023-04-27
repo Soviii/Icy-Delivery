@@ -13,6 +13,8 @@ import Logout from './components/Logout';
 import CreateAccount from './components/CreateAccount';
 import PrivateRoute from './components/PrivateRouteUser/index';
 import Account from './components/AccountDetails/Account';
+import AdminLogin from './components/AdminComponents/AdminLogin';
+import TroubleTicketManagement from './components/AdminComponents/TroubleTicketManagement';
 
 function App() {
   
@@ -23,6 +25,12 @@ function App() {
         <Routes>
           {/* home page should be accessible regardless of being logged in or not */}
           <Route path='/' exact element={<Home />} />
+
+          <Route path='/admin-IcyDel-login' element={
+            <PrivateRoute admin='true' pageToLoad='admin-IcyDel-login'>
+              <AdminLogin />
+            </PrivateRoute>
+          } />
 
           <Route path='/login' element={
             <PrivateRoute pageToLoad={"login"}>
@@ -62,8 +70,23 @@ function App() {
 
 
           {/* for admin access */}
-          <Route path='/shipmenttracking' element={<ShipmentTracking />} />
-          <Route path='/inventorymanagement' element={<InventoryManagement />} />
+          <Route path='/shipmenttracking' element={
+            <PrivateRoute admin='true'>
+              <ShipmentTracking />
+            </PrivateRoute>
+          } />
+
+          <Route path='/inventorymanagement' element={
+            <PrivateRoute admin='true'>
+              <InventoryManagement />
+            </PrivateRoute>
+          } />
+
+          <Route path='/trouble-ticket-management' element={
+            <PrivateRoute admin='true'>
+              <TroubleTicketManagement />
+            </PrivateRoute>
+          } />
 
           <Route path='*' element={<UnknownPage />} />
         </Routes>
