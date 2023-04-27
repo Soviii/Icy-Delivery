@@ -16,12 +16,12 @@ export const SidebarData = [
     icon: <FaIcons.FaCartPlus />,
     cName: 'nav-text'
   },
-   {
-     title: 'Inventory',
-     path: '/inventorymanagement',
-     icon: <FaIcons.FaClipboardList />,
-     cName: 'nav-text'
-   },
+  //  {
+  //    title: 'Inventory',
+  //    path: '/inventorymanagement',
+  //    icon: <FaIcons.FaClipboardList />,
+  //    cName: 'nav-text'
+  //  },
   // {
   //   title: 'Shipment Tracking',
   //   path: '/shipmenttracking',

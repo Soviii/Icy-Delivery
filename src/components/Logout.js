@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Logout.css';
 
 const Logout = () => {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState();
   
   useEffect(() => {
     const timer = setTimeout(() => {
       localStorage.currentUserID = ""; // set the value to null
       localStorage.userIsLoggedIn = "false";
-      setCurrentUser(null);
+      localStorage.admin = "false";
       navigate('/login');
     }, 2000);
 
