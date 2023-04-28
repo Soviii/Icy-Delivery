@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import "./Orders.css"
-import Login from './Login';
 
 const Orders = () => {
 
@@ -17,13 +17,15 @@ const Orders = () => {
   const [shippingZip, setShippingZip] = useState("");
   const [shippingCountry, setShippingCountry] = useState("");
   const [checked, setChecked] = useState(true);
-
   const [flavors, setFlavors] = useState([]);
   const [selectedFlavor, setSelectedFlavor] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [orders, setOrders] = useState([]);
   const [showShipping, setShowShipping] = useState(false);
   const [reviewOrder, setReviewOrder] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [orderAdded, setOrderAdded] = useState(false);
+  const [shippingFilled, setShippingFilled] = useState(false);
 
   const loggedInUserID = localStorage.currentUserID;
 
@@ -38,6 +40,7 @@ const Orders = () => {
       setShippingFirstName(currentUser.data.firstName);
       setShippingLastName(currentUser.data.lastName);
       setShippingCountry(currentUser.data.address.country);
+      setShippingFilled(true);
     }
     else {
       setShippingAddress("");
@@ -64,19 +67,22 @@ const Orders = () => {
   const calculateShippingDate = () => {
     const today = new Date();
     const shippingDate = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
-    return shippingDate.toISOString().split('T')[0];
+  
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = shippingDate.toLocaleDateString(undefined, options);
+  
+    return formattedDate;
   };
 
   const addToOrder = () => {
     if (quantity > 0 && selectedFlavor !== '') {
-      const shippingDate = new Date();
-      shippingDate.setDate(shippingDate.getDate() + 14);
+      const shippingDate = calculateShippingDate();
 
       const order = {
         flavor: selectedFlavor,
         quantity: quantity,
         cost: 50,
-        shippingDate: shippingDate.toLocaleDateString(),
+        shippingDate: shippingDate,
       };
 
       setOrders([...orders, order]);
@@ -84,6 +90,7 @@ const Orders = () => {
       // Reset form values
       setSelectedFlavor('');
       setQuantity(0);
+      setOrderAdded(true);
     }
   };
 
@@ -132,6 +139,8 @@ const Orders = () => {
     try {
       const response = await Axios.post("http://localhost:4000/orders/createOrder", order);
       console.log("Order created:", response.data);
+      setReviewOrder(false);
+      setShowModal(true);
     } catch (error) {
       console.error("Error creating order:", error);
     }
@@ -167,8 +176,8 @@ const Orders = () => {
 
   if (showShipping) {
     return (
-      <div className='orders'>
-        <div className='child'>
+      <div className='orders' style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className='child'style={{ width: '40%' }}>
           <p className='shippingaddressheader'>Shipping Address</p>
           <Form>
             <Form.Group size="lg" controlId="email">
@@ -250,7 +259,7 @@ const Orders = () => {
               onChange={handleCheckBoxChange}
             />
             <div className="button">
-              <button className="btn btn-primary" onClick={handleReviewOrder}>Review Order</button>
+              <button className="btn btn-primary" disabled={!shippingFilled} onClick={handleReviewOrder}>Review Order</button>
             </div>
           </Form>
           <div className="button">
@@ -263,115 +272,162 @@ const Orders = () => {
 
   if (reviewOrder) {
     return (
-      <div className='orders'>
+      <div className='container'>
         <div className='child'>
-          <div className='order-summary'>
-            <h3>Orders:</h3>
-            <ul>
-              {orders.map((order, index) => (
-                <li key={index}>
-                  <p>Flavor: {order.flavor}</p>
-                  <p>Quantity: {order.quantity}</p>
-                  <p>Cost: ${order.quantity * 30}</p>
-                  <p>Shipping Date: {order.shippingDate}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className='shipping-details'>
-            <h3>Shipping Details:</h3>
-            <p>Email: {shippingEmail}</p>
-            <p>First Name: {shippingFirstName}</p>
-            <p>Last Name: {shippingLastName}</p>
-            <p>Address: {shippingAddress}</p>
-            <p>City: {shippingCity}</p>
-            <p>State: {shippingState}</p>
-            <p>Zip: {shippingZip}</p>
-            <p>Country: {shippingCountry}</p>
-            <p>Total: ${calculateTotal()}</p>
-            <p>Estimated Shipping Date: {calculateShippingDate()}</p>
+            <h5 className="confirm-title">Review Order</h5>
+            <div className='order-summary'>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Flavor</th>
+                  <th>Quantity</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order, index) => (
+                  <tr key={index}>
+                    <td>{order.flavor}</td>
+                    <td>{order.quantity}</td>
+                    <td>${order.quantity * 30}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </div>
+            <div className='shipping-details'>
+              <h3 className="confirm-title">Shipping Details</h3>
+                <p className="shipping">{shippingFirstName} {shippingLastName}</p>
+                <p className="shipping">{shippingAddress}</p>
+                <p className="shipping">{shippingCity}, {shippingState}, {shippingZip}, {shippingCountry}</p>
+                <p className="shipping">Total: ${calculateTotal()}</p>
+                <p className="shipping">Estimated Shipping Date: {calculateShippingDate()}</p>
+                <p className="shipping">{shippingEmail}</p>
+            </div>
             <div className="button">
               <button type="submit" className="btn btn-primary" onClick={createOrder}>Place Order</button>
             </div>
           </div>
-        </div>
       </div>
     );
   }
 
-
   return (
     <div>
-      <h2>Ice Cream Order Form</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Flavor</th>
-            <th>Quantity</th>
-            <th>Cost</th>
-            <th>Est. Shipping Date</th>
-          </tr>
-        </thead>
-        <tbody>
-        <tr className="order-selection">
-          <td>
-            <select value={selectedFlavor} onChange={(e) => setSelectedFlavor(e.target.value)}>
-              <option value="">Select a flavor</option>
-              {flavors.map((flavor) => (
-                <option key={flavor.id} value={flavor.name}>
-                  {flavor.name}
-                </option>
-              ))}
-            </select>
-          </td>
-          <td>
-            <input
-              type="number"
-              placeholder="0"
-              min={0}
-              value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value))}
-            />
-          </td>
-          <td className="auto-cost">${quantity * 30}</td>
-          <td className="auto-date"></td>
-          <td>
-            <button onClick={addToOrder}>Add to Order</button>
-          </td>
-        </tr>
-        {orders.map((order, index) => (
-          <tr key={index}>
+      <h2 className="main-title">Ice Cream Order Form</h2>
+      <div className="centered-container">
+        <table class="table order-form-table">
+          <thead>
+            <tr>
+              <th scope="col">Flavor</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Cost</th>
+              <th scope="col">Est. Shipping Date</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr className="order-selection">
             <td>
-              <p>{order.flavor}</p>
+              <select className="btn btn-outline-secondary dropdown-toggle" value={selectedFlavor} onChange={(e) => setSelectedFlavor(e.target.value)}>
+                <option value="" disabled selected>Select a Flavor</option>
+                {flavors.map((flavor) => (
+                  <option key={flavor.id} value={flavor.name}>
+                    {flavor.name}
+                  </option>
+                ))}
+              </select>
             </td>
             <td>
-              <p>{order.quantity}</p>
+              <input
+                type="number"
+                min={0}
+                value={quantity}
+                class="form-control"
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+              />
             </td>
+            <td className="auto-cost">${quantity * 30}</td>
+            <td className="auto-date"></td>
             <td>
-              <p>${order.quantity * 30}</p>
-            </td>
-            <td>
-              <p>{order.shippingDate}</p>
-            </td>
-            <td>
-              <button onClick={() => removeOrder(index)}>Remove</button>
+              <button className="btn btn-primary" onClick={addToOrder}>Add to Order</button>
             </td>
           </tr>
-        ))}
+          {orders.map((order, index) => (
+            <tr key={index}>
+              <td>
+                <p>{order.flavor}</p>
+              </td>
+              <td>
+                <p>{order.quantity}</p>
+              </td>
+              <td>
+                <p>${order.quantity * 30}</p>
+              </td>
+              <td>
+                <p>{order.shippingDate}</p>
+              </td>
+              <td>
+                <button className="btn btn-outline-danger" onClick={() => removeOrder(index)}>Remove</button>
+              </td>
+            </tr>
+          ))}
 
-        <tr>
-          <td colSpan="2">Shipping Costs:</td>
-          <td colSpan="2">${calculateShippingCost()}</td>
-        </tr>
-        <tr>
-          <td colSpan="2">Total:</td>
-          <td colSpan="2">${calculateTotal()}</td>
-        </tr>
-        </tbody>
-      </table>
-      <div>
-        <button className="btn btn-primary" onClick={handleGoToShipping}>Go to Shipping Details</button>
+          <tr className="no-border">
+            <td colSpan="2"></td>
+            <td colSpan="2">Shipping Costs:</td>
+            <td colSpan="2">${calculateShippingCost()}</td>
+          </tr>
+          <tr className="no-border">
+            <td colSpan="2"></td>
+            <td colSpan="2">Total:</td>
+            <td colSpan="2">${calculateTotal()}</td>
+          </tr>
+          </tbody>
+          <div className="ship-btn">
+              <button className="ship-btn btn btn-primary" disabled={!orderAdded} onClick={handleGoToShipping}>Go to Shipping Details</button>
+          </div>
+        </table>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <p className="confirm">Order Confirmation</p>
+        <Modal.Body>
+          <p>Your order has been placed!</p>
+          <h5 className="confirm-title">Order Details</h5>
+          <div className='order-summary'>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Flavor</th>
+                <th>Quantity</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.flavor}</td>
+                  <td>{order.quantity}</td>
+                  <td>${order.quantity * 30}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          </div>
+          <div className='shipping-details'>
+            <h3 className="confirm-title">Shipping Details</h3>
+              <p className="shipping">{shippingFirstName} {shippingLastName}</p>
+              <p className="shipping">{shippingAddress}</p>
+              <p className="shipping">{shippingCity}, {shippingState}, {shippingZip}, {shippingCountry}</p>
+              <p className="shipping">Total: ${calculateTotal()}</p>
+              <p className="shipping">Estimated Shipping Date: {calculateShippingDate()}</p>
+              <p className="shipping">{shippingEmail}</p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-primary" onClick={() => {setShowModal(false); window.location.reload();}}>Close</button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

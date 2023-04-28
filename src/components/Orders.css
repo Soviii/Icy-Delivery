@@ -1,9 +1,14 @@
-.orders{
-    border: 3px;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+  
+.child {
+width: 60%;
 }
-.child{
-    border: 2px;
-}
+
 .button{
     padding: 20px;
 }
@@ -18,3 +23,64 @@
     font-size: 45px;
     border-right: solid 1px gray;
 }
+
+.confirm-title {
+    text-align: center;
+    border-bottom: solid 2px black;
+    font-size: 32px;
+}
+
+.shipping {
+    text-align:left ;
+}
+
+.confirm {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.main-title {
+    text-align: center;
+    margin: 20px;
+    font-weight: 700;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .order-form-table {
+    width: 100%;
+  }
+  
+  .order-form-table th,
+  .order-form-table td {
+    text-align: center;
+  }
+  
+  .order-form-table .auto-cost,
+  .order-form-table .auto-date {
+    text-align: center;
+  }
+  
+  .order-form-table button {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .ship-btn {
+    margin: 30px;
+  }
+
+  .no-border {
+    border: solid 1px white;
+  }
+
+  .shipping-details {
+    text-align: center;
+  }
