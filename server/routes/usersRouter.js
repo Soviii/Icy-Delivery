@@ -23,7 +23,6 @@ usersRouter.get("/getAllUsers", async (req, res) => {
 */
 usersRouter.post("/createUser", async (req, res) => {
     try {
-        console.log(req.body)
         if(await CheckIfAccountExist({email: req.body.email})){
             return res.status(400).send({ 
                 success: false,
@@ -42,7 +41,7 @@ usersRouter.post("/createUser", async (req, res) => {
         await newUser.save();
         return res.status(200).send({
             success: true,
-            data: user
+            data: newUser
         })
     } catch (err) {
         mongoose = require("mongoose")
@@ -82,6 +81,7 @@ usersRouter.get("/login", async (req, res) => {
     try {
         const email = req.query.email;
         const password = req.query.password;
+
         const user = await UserModel.findOne({ email });
         if (!user) { // meaning user does not exist
         return res.status(401).send({
@@ -143,6 +143,14 @@ usersRouter.patch("/updateUserInfo", async (req, res) => { // patch request inst
         const userId = req.query.id;
         const newInfo = req.body;
 
+        const validNewInfo = await RegexCheckForInputs(newInfo);
+
+        if(validNewInfo.success === false){
+            return res.status(400).send({
+                success: false, 
+                message: validNewInfo.message
+            })
+        }
         /* update user info */
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId, 
@@ -219,6 +227,7 @@ const CheckIfAccountExist = async (details) => {
     
 };
 
+  
 const RegexCheckForInputs = async (details) => {
 
     // used for validating input fields
@@ -228,68 +237,76 @@ const RegexCheckForInputs = async (details) => {
     const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
     const streetRegex = /^[a-zA-Z0-9\s,'-.]*$/;
     const countryRegex = /^[a-zA-Z\s]+(?:[\s-][a-zA-Z\s]+)*$/;
-
+    const dateOfBirthRegex = /^(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])-(19|20)\d{2}$/;
+    
     /* regex stuff for validation; if any if statements are true, means input was not to standard*/
-    if (details.firstName && !nameRegex.test(details.firstName)) {
+    if (details.firstName.length <= 0 || !nameRegex.test(details.firstName)) {
         return { 
             success: false, 
             message: "Invalid first name"
         };
     }
 
-    if (details.lastName && !nameRegex.test(details.lastName)) {
+    if (details.lastName.length <= 0 || !nameRegex.test(details.lastName)) {
         return { 
             success: false, 
             message: "Invalid last name"
         };
     }
 
-    if (details.email && !emailRegex.test(details.email)) {
+    if (details.email.length <= 0 || !emailRegex.test(details.email)) {
         return {
             success: false,
             message: "Invalid email"
         };
     }
 
-    if (details.password && !passwordRegex.test(details.password)) {
+    if (details.password.length <= 0 || !passwordRegex.test(details.password)) {
         return { 
             success: false, 
-            message: "Invalid password" 
+            message: "Invalid password\n\nMust follow these requirements:\nAt least one digit\nAt least one uppercase letter\nAt least one lowercase letter\nAt least 8 characters" 
         };
     }
 
-    if (details.address.street && !streetRegex.test(details.address.street)) {
+    if (details.address.street.length <= 0 || !streetRegex.test(details.address.street)) {
         return { 
             success: false, 
             message: "Invalid street" 
         };
     }
 
-    if (details.address.city && !nameRegex.test(details.address.city)) {
+    if (details.address.city.length <= 0 || !nameRegex.test(details.address.city)) {
         return { 
             success: false,
             message: "Invalid city"
         };
     }
 
-    if (details.address.state && !nameRegex.test(details.address.state)) {
+    if (details.address.state.length <= 0 || !nameRegex.test(details.address.state)) {
         return { 
             success: false, 
             message: "Invalid state"
         };
     }
 
-    if (details.address.zip && !zipRegex.test(details.address.zip)) {
+    if (details.address.zip.length <= 0 || !zipRegex.test(details.address.zip)) {
         return { 
             success: false, 
             message: "Invalid zip" 
         };
     }
 
-    if (details.address.country && !countryRegex.test(details.address.country)) {
+    if (details.address.country.length <= 0 || !countryRegex.test(details.address.country)) {
         return {
             success: false,
             message: "Invalid country"
+        };
+    }
+
+    if (details.dateOfBirth.length <= 0 || !dateOfBirthRegex.test(details.dateOfBirth)){
+        return {
+            success: false,
+            message: "Invalid birthday"
         };
     }
 

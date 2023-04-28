@@ -11,6 +11,7 @@ const Orders = () => {
   const [shippingEmail, setShippingEmail] = useState("");
   const [shippingFirstName, setShippingFirstName] = useState("");
   const [shippingLastName, setShippingLastName] = useState("");
+  const [password, setPassword] = useState("");
   const [shippingAddress, setShippingAddress] = useState("");
   const [shippingCity, setShippingCity] = useState("");
   const [shippingState, setShippingState] = useState("");
@@ -41,6 +42,7 @@ const Orders = () => {
       setShippingLastName(currentUser.data.lastName);
       setShippingCountry(currentUser.data.address.country);
       setShippingFilled(true);
+      setPassword(currentUser.data.password);
     }
     else {
       setShippingAddress("");

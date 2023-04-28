@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./Login.css";
 
-function Login() {
+function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(null);
@@ -40,16 +39,24 @@ function Login() {
     return encodedPassword;
   }
    
-  const validateLogin = async () => {
+  const validateAdminLogin = async () => {
     try {
         // console.log(email);
         // console.log(password);
         // console.log(`http://localhost:4000/users/login?email=${email}&password=${password}`)
         const response = await Axios.get(`http://localhost:4000/users/login?email=${email}&password=${await encodePassword()}`);
+
+        if(response.data.data.admin !== "true"){
+            localStorage.userIsLoggedIn = "false";
+            setLoginSuccess(false);
+            return;
+        }
+
         setLoginSuccess(true);
         console.log(response);
         localStorage.currentUserID = response.data.data._id;
         localStorage.userIsLoggedIn = "true";
+        localStorage.admin = "true";
         
         setTimeout(() => {
           navigate('/');
@@ -73,7 +80,7 @@ function Login() {
     } else if (loginSuccess === false) {
       return (
         <div className="login-status failure">
-          <p>Invalid credentials.</p>
+          <p>Invalid credentials</p>
         </div>
       )
     } else {
@@ -83,6 +90,7 @@ function Login() {
 
   return (
     <div className="Login">
+        <h2 style={{ textAlign: "center"}}>o7</h2>
       <Form>
         <Form.Group style={{ marginBottom: "30px"}} size="lg" controlId="email">
           <Form.Label>Email</Form.Label>
@@ -102,11 +110,8 @@ function Login() {
           />
         </Form.Group>
         <div className="d-flex justify-content-between align-items-center">
-          <Button block="true" onClick={() => {validateLogin()}} disabled={!validateForm()} style={{ margin: "20px" }}>
+          <Button block="true" onClick={() => {validateAdminLogin()}} disabled={!validateForm()} style={{ margin: "20px" }}>
             Login
-          </Button>
-          <Button variant="secondary" onClick={() => navigate('/create-account')} style={{ margin: "20px" }}>
-            Create Account
           </Button>
         </div>
       </Form>
@@ -115,4 +120,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;
