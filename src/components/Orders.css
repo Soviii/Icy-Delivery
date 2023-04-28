@@ -13,3 +13,8 @@
 .shippingaddressheader{
     font-size: 30px;
 }
+
+.order-quantity {
+    font-size: 45px;
+    border-right: solid 1px gray;
+}
