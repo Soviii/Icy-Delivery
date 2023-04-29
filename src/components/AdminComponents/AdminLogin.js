@@ -90,7 +90,7 @@ function AdminLogin() {
 
   return (
     <div className="Login">
-        <h2 style={{ textAlign: "center"}}>o7</h2>
+        <h2 style={{ textAlign: "center"}}>Secret...</h2>
       <Form>
         <Form.Group style={{ marginBottom: "30px"}} size="lg" controlId="email">
           <Form.Label>Email</Form.Label>

@@ -51,7 +51,7 @@ function Navbar() {
                       <Link to='/inventorymanagement'>
                         <FaIcons.FaClipboard />
                         <span>Inventory Management</span>
-                      </Link>'
+                      </Link>
                     </li>
                     <li className='nav-text'>
                       <Link to='/shipmenttracking'>
@@ -85,12 +85,18 @@ function Navbar() {
                           <span>{item.title}</span>
                         </Link>
                       </li>
-                    );
+                    )
                   })
                 )
               } else {
                 return (
                   <>
+                    <li className='nav-text'>
+                      <Link to='/'>
+                        <AiIcons.AiFillHome />
+                        <span>Home</span>
+                      </Link>
+                    </li>
                     <li className='nav-text'>
                       <Link to='/login'>
                         <FaIcons.FaSignInAlt />
@@ -107,7 +113,7 @@ function Navbar() {
                   </>
                 )
               }
-            })()};
+            })()}
 
 
           </ul>

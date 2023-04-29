@@ -25,7 +25,7 @@ const TroubleTicketDetails = ({ ticket, handleClose }) => {
 
             setTimeout(() => {
                 window.location.reload(); // force a page refresh
-                }, 3000);
+                }, 2000);
             
 
         } catch (err) {
