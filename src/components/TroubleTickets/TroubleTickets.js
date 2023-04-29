@@ -47,7 +47,7 @@ const TroubleTickets = () => {
       <Row>
         <h2 style={{textAlign: 'center', padding: '20px'}}>Previous Tickets</h2>
       </Row>
-      <Row>
+      <Row style={{ marginLeft: "60px", marginRight: "60px" }}>
         {/* immediately invoked function expression (IIFE) */}
         {(() => {
           if (usersTickets.length === 0) {
