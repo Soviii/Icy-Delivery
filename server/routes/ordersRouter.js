@@ -9,6 +9,20 @@ const { CheckIfAccountExist, RegexCheckForInputs } = require("./usersRouter.js")
 // dante: 6433510e13d84aba79483961
 
 //! Order API Calls
+
+/*
+    gets all orders of of all customers
+    EX: http://localhost:4000/orders/getAllOrders
+*/
+ordersRouter.get("/getAllOrders", async (req, res) => {
+    try{
+        const orders = await OrderModel.find()
+        return res.status(200).send({ data: orders })
+    } catch (err) {
+        return res.status(400).send({ error: err })
+    }
+});
+
 /*
     gets all orders of customer ID
     EX: http://localhost:4000/orders/getOrdersByCustomerID?customerID=<customer ID>
@@ -103,7 +117,38 @@ ordersRouter.delete("/deleteOrderByOrderID", async (req, res) => {
     }
 });
 
-
+/*
+    update only the shipping status of the order without needed to pass any other info
+    EX: http://localhost:4000/orders/updateOrderStatus?orderID=<order ID>&newStatus=<new status>
+*/
+ordersRouter.patch("/updateOrderStatus", async (req, res) => {
+    try{
+        const orderID = req.query.orderID;
+        const newStatus = req.query.newStatus;
+        const updatedOrder = await OrderModel.findByIdAndUpdate(
+            orderID,
+            {shippingStatus: newStatus},
+            {new: true}
+        );
+        if (!updatedOrder) {
+            return res.status(404).send({
+                success: false,
+                message: "Order not found"
+            });
+        }
+        
+        return res.status(200).send({
+            success: true,
+            message: "order updated!",
+            data: updatedOrder
+        });
+    } catch (err) {
+        return res.status(500).send({
+            success: false,
+            error: err.message
+        })
+    }
+});
 
 /*
     updates order 
