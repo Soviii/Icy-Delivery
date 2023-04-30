@@ -13,7 +13,7 @@ const InventoryManagement = () => {
         const flavorsResponse = Axios.get('http://localhost:4000/flavors/getFlavors');
         const [flavorsData] = await Promise.all([flavorsResponse]);
         const allFlavors = [...flavorsData.data.data]
-        if (allFlavors.find.length > 0) {
+        if (allFlavors.length > 0) {
           setFlavors(allFlavors);
           setInitialFlavorsData(allFlavors);
         }
