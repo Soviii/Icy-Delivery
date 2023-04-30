@@ -12,10 +12,12 @@ const OrderSchema = new mongoose.Schema({
     customerID: { type: String, required: true },
     items: [{
         name: { type: String, required: true },
-        quantity: { type: Number, required: true }
+        quantity: { type: Number, required: true },
+        cost: { type: Number, required: true }
     }],
     orderDate: { type: String, required: true, default: orderDate },
-    shippingStatus: { type: String, required: true },
+    shippingStatus: { type: String, default: "Pending", required: true },
+    shippingDate: { type: String, required: true },
     /* shippingInfo can be different; can ship to another address but should still be in the same account */
     shippingInfo: {
         firstName: { type: String, required: true },

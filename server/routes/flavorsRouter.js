@@ -121,7 +121,9 @@ flavorsRouter.patch("/updateFlavorInventory", async (req, res) => {
 
         if(req.query.operation == "add"){
             flavorObject.quantity = flavorObject.quantity + quantity;
-        } else {
+        } else if(req.query.operation == "change") {
+            flavorObject.quantity = quantity;
+        } else{
             flavorObject.quantity = flavorObject.quantity - quantity;
         }
 
