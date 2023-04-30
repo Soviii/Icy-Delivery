@@ -1,6 +1,7 @@
 const express = require("express");
 const usersRouter = express.Router();
 const UserModel =  require("../models/Users");
+const bcrypt = require("bcrypt");
 
 //! User API Calls
 /* 
@@ -21,6 +22,8 @@ usersRouter.get("/getAllUsers", async (req, res) => {
     EX: http://localhost:4000/users/createUser
         > must have body passed in
 */
+
+
 usersRouter.post("/createUser", async (req, res) => {
     try {
         if(await CheckIfAccountExist({email: req.body.email})){
@@ -29,6 +32,7 @@ usersRouter.post("/createUser", async (req, res) => {
                 error: "Account with email address already exists"
             });
         }
+
         let inputErrorFound = await RegexCheckForInputs(req.body);
         if (inputErrorFound.success == false){
             return res.status(400).send({
@@ -36,9 +40,19 @@ usersRouter.post("/createUser", async (req, res) => {
                 error: inputErrorFound.message
             });
         }
-        const user = req.body;
+
+        // Hash and Salting Password
+        let user = req.body;
+        let new_pw = req.body.password;
+        user.password = new_pw;
+
+        const salt = bcrypt.genSaltSync(10)
+        const hash = await bcrypt.hash(new_pw, salt)
+        user.password = hash
+
         const newUser = new UserModel(user);
         await newUser.save();
+
         return res.status(200).send({
             success: true,
             data: newUser
@@ -53,7 +67,8 @@ usersRouter.post("/createUser", async (req, res) => {
         }   
         return res.status(500).send({
             success: false,
-            error: "Internal Server Error"
+            error: "ass Internal Server Error",
+            message: err.message
         });
 
         // } else if (err.code === 11000) {
@@ -81,20 +96,35 @@ usersRouter.get("/login", async (req, res) => {
     try {
         const email = req.query.email;
         const password = req.query.password;
-
         const user = await UserModel.findOne({ email });
-        if (!user) { // meaning user does not exist
+        const isValid = await bcrypt.compare(password, user.password)
+       
+        if (!user) { 
         return res.status(401).send({
             success: false,
             message: "Invalid email or password",
             data: null
         });
-        } else if (password != user.password) {
-            return res.status(401).send({ 
-                success: false,
-                message: "Invalid email or password",
+
+        
+        } else if (!isValid){
+            return res.status(401).send({
+                success: false, 
+                message: "Invalid Password", 
                 data: null
             });
+        
+        // Code before implementing hashing. I left it here for the 
+        // purpose of referencing it if needed, otherwise it can be discraded.  
+        //
+        // else if(password != user.password) {
+        //     return res.status(401).send({ 
+        //         success: false,
+        //         message: "Invalid email or password",
+        //         data: null
+        //     });
+            
+        
       } else {
             return res.status(200).send({ 
                 success: true,
@@ -102,10 +132,7 @@ usersRouter.get("/login", async (req, res) => {
                 data: user
             });
       }
-    //   const isMatch = await bcrypt.compare(password, user.password);
-    //   if (!isMatch) {
-    //     return res.status(401).send({ error: "Invalid email or password" });
-    //   }
+
     } catch (err) {
         return res.status(500).send({ error: "Internal Server Error" });
     }
@@ -321,3 +348,5 @@ module.exports = {
     CheckIfAccountExist,
     RegexCheckForInputs
 };
+  
+ 
