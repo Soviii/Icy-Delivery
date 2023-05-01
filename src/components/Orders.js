@@ -3,7 +3,7 @@ import Axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "./Orders.css"
-
+import FlavorsDisplay from "./FlavorsDisplay";
 const Orders = () => {
 
   const [currentUser, setCurrentUser] = useState();
@@ -430,6 +430,7 @@ const Orders = () => {
           <button className="btn btn-primary" onClick={() => {setShowModal(false); window.location.reload();}}>Close</button>
         </Modal.Footer>
       </Modal>
+      <FlavorsDisplay />
     </div>
   );
 }

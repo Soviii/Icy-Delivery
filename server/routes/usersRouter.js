@@ -168,7 +168,13 @@ usersRouter.get("/getUser", async (req, res) => {
 usersRouter.patch("/updateUserInfo", async (req, res) => { // patch request instead of put (patch is conventionally for replacing partial data while put is for complete overwrite)
     try {
         const userId = req.query.id;
-        const newInfo = req.body;
+        let newInfo = req.body;
+        let new_pw = newInfo.password;
+        newInfo.password = new_pw;
+
+        const salt = bcrypt.genSaltSync(10)
+        const hash = await bcrypt.hash(new_pw, salt)
+        newInfo.password = hash
 
         const validNewInfo = await RegexCheckForInputs(newInfo);
 

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { IntegerInput } = require("react-bootstrap-form/lib/inputs");
 
 const FlavorSchema = new mongoose.Schema({
     name: { type: String, required: true},
