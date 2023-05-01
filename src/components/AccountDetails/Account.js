@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, InputGroup, FormControl, Modal } from "react-bootstrap";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PreviousOrders from "./PreviousOrders.js";
 
 const Account = () => {
     // const [isLoading, setLoading] = useState(true);
@@ -9,8 +10,7 @@ const Account = () => {
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("none");
-    // const [passwordMasked, setPasswordMasked] = useState(true);
-    // const [showPassword, setShowPassword] = useState("");
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [street, setStreet] = useState("");
@@ -18,18 +18,11 @@ const Account = () => {
     const [state, setState] = useState("");
     const [zip, setZip] = useState("");
     const [country, setCountry] = useState("");
-    // const [rowsData, setRowsData] = useState([]);
-    // const [checked, setChecked] = useState(true);
-    const [changesMade, setChangesMade] = useState(false);
 
     const [showPasswordChangeModal, setShowChangePasswordModal] = useState(false);
     const [showEnterNewPasswordModal, setShowEnterNewPasswordModal] = useState(false);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [showDeletionModal, setShowDeletionModal] = useState(false);
-
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalDescription, setModalDescription] = useState("");
-    const [showSubmitButton, setShowSubmitButton] = useState(true);
 
     const [credentialsVerified, setCredentialsVerified] = useState("");
 
@@ -45,16 +38,6 @@ const Account = () => {
     const [originalCountry, setOriginalCountry] = useState("");
 
     const navigate = useNavigate();
-
-    // let originalEmail = "";
-    // let originalPassword = "";
-    // let originalFirstName = "";
-    // let originalLastName = "";
-    // let originalStreet = "";
-    // let originalCity = "";
-    // let originalState = "";
-    // let originalZip = "";
-    // let originalCountry = "";
 
 
     useEffect(() => {
@@ -99,8 +82,8 @@ const Account = () => {
             } catch (err) {
                 console.log(err.message);
             }
-
         }
+
         getUserInfo();
     }, []);
 
@@ -464,6 +447,9 @@ const Account = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+
+            <PreviousOrders  />
         </>
     );
 }
