@@ -17,13 +17,10 @@ function Home() {
       zIndex: -1
       }} 
     />
-    <p style={{ flex: 1 }}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id leo
-      quis lorem porttitor bibendum. Nulla id nulla eget felis finibus
-      sagittis. Proin sem sapien, dignissim at metus nec, tempus gravida
-      lectus. Praesent elementum magna vel ex accumsan, ut lacinia justo
-      facilisis. Suspendisse ultrices risus quis libero vulputate feugiat.
-    </p>
+    <p style={{ fontFamily: 'Trebuchet MS', fontSize: '3rem', margin: '20px 0' }}>
+  Icy Delivery promises to fulfill your choice of ice cream in an efficient manner. Welcome!
+</p>
+
   </div>
 
   );

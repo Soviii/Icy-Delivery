@@ -25,7 +25,10 @@ function Navbar() {
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-          <h1 className='app-title'>Icy Delivery</h1>
+          <img src={require('../assets/Icy title.png')} alt={'icy title'} style={{ width: '200px' }}/>
+          {/* <h1 className='app-title' style={{ fontFamily: "Open Sans, sans-serif", fontWeight: 600, fontSize: "2.5rem", letterSpacing: "1px", color: "#3c3c3c", textTransform: "uppercase", textAlign: "center", margin: "1rem 0" }}>Icy Delivery</h1> */}
+
+
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'} style={{ zIndex: 99 }}>
           <ul className='nav-menu-items' onClick={showSidebar}>

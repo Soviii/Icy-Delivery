@@ -70,7 +70,7 @@ const PreviousOrders = () => {
                 orderDate: selectedOrderDate,
                 shippingInfo: selectedOrderShippingInfo
             }
-            const response = await Axios.patch(`http://localhost:4000/orders/updateOrder?orderID=${selectedOrderID}`, newInfo);
+            const response = await Axios.patch(`http://localhost:4000/orders/cancelOrder?orderID=${selectedOrderID}`, newInfo);
             setCancellationSuccessful(true);
             setSelectedOrderID("");
             setSelectedOrderStatus("");
@@ -154,7 +154,7 @@ const PreviousOrders = () => {
                             <p style={{ whiteSpace: "pre-wrap" }}>{"\n\n"}{selectedOrderItems.map((item) => (
                                 `${item.name}: ${item.quantity}, \$${item.cost}\n`
                             )).join('')}</p>
-                            <p>Total Cost: {selectedOrderTotalPrice}</p>
+                            <p>Total Cost: ${selectedOrderTotalPrice}</p>
                         </>
                     )}
                     {cancellationSuccessful && (
