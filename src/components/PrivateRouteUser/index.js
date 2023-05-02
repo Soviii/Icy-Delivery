@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 export const CheckForAdminAccess = () => {
-    const listOfAdmins = ["6449c4cd9f8df05eb44032e7"];
+    const listOfAdmins = ["645041de026192d917bb5d3e"];
     
     for(let i = 0; i < listOfAdmins.length; i++){
         if(listOfAdmins[i] === localStorage.currentUserID){

@@ -104,7 +104,7 @@ const Account = () => {
                 "lastName": lastName,
                 "dateOfBirth": `${dateOfBirth.slice(5,7)}-${dateOfBirth.slice(8,10)}-${dateOfBirth.slice(0,4)}`,
                 "email": email,
-                "password": originalPassword,
+                "password": password,
                 "address": {
                     "street": street,
                     "city": city,
@@ -141,6 +141,7 @@ const Account = () => {
                 // setCredentialsVerified(`${err.response.data.message}`);
         }
     };
+
 
     const handleDeleteAccount = async (event) => {
         event.preventDefault();
@@ -191,8 +192,14 @@ const Account = () => {
 
         } catch (err) {
             // console.log(err);
-            setCredentialsVerified("Invalid password");
-            return false;
+            setCredentialsVerified("Loading");
+
+            setTimeout(() => {
+                //TODO: check if error message for both invalid password and invalid formatting of each word is the same source in the response data ORRRRR check formatting via regex when you click the update account button
+                setCredentialsVerified("Invalid Password")
+            }, 500);
+
+            // return false;
         }
     };
 
@@ -254,7 +261,6 @@ const Account = () => {
             .replace(/#/g, '%23');
         return encodedPassword;
     };
-
 
 
     return (

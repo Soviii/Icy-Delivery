@@ -160,33 +160,33 @@ ordersRouter.patch("/updateOrder", async (req, res) => {
         const orderID = req.query.orderID;
         let newInfo = req.body;
         
-        // const shippingInfo = {
-        //     firstName: req.body.shippingInfo.firstName,
-        //     lastName: req.body.shippingInfo.lastName,
-        //     address: {
-        //         street: req.body.shippingInfo.street,
-        //         city: req.body.shippingInfo.city,
-        //         state: req.body.shippingInfo.state,
-        //         zip: req.body.shippingInfo.zip,
-        //         country: req.body.shippingInfo.country
-        //     }
-        // };
+        const shippingInfo = {
+            firstName: req.body.shippingInfo.firstName,
+            lastName: req.body.shippingInfo.lastName,
+            address: {
+                street: req.body.shippingInfo.street,
+                city: req.body.shippingInfo.city,
+                state: req.body.shippingInfo.state,
+                zip: req.body.shippingInfo.zip,
+                country: req.body.shippingInfo.country
+            }
+        };
 
-        // const inputErrorFound = await RegexCheckForInputs(shippingInfo);
-        // if (inputErrorFound.success == false){
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: inputErrorFound.message
-        //     });
-        // }
+        const inputErrorFound = await RegexCheckForInputs(shippingInfo);
+        if (inputErrorFound.success == false){
+            return res.status(400).send({
+                success: false,
+                message: inputErrorFound.message
+            });
+        }
 
-        // for (let i = 0; i < req.body.items.length; i++){
-        //     console.log(`items length: ${req.body.items.length}`)
-        //     if (req.body.items[i].quantity <= 0){
-        //         req.body.items.splice(i, 1);
-        //         i -= 1;
-        //     }
-        // }
+        for (let i = 0; i < req.body.items.length; i++){
+            console.log(`items length: ${req.body.items.length}`)
+            if (req.body.items[i].quantity <= 0){
+                req.body.items.splice(i, 1);
+                i -= 1;
+            }
+        }
         console.log(`final item length: ${req.body.items.length}`)
 
 

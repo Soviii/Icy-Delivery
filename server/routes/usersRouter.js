@@ -22,8 +22,6 @@ usersRouter.get("/getAllUsers", async (req, res) => {
     EX: http://localhost:4000/users/createUser
         > must have body passed in
 */
-
-
 usersRouter.post("/createUser", async (req, res) => {
     try {
         if(await CheckIfAccountExist({email: req.body.email})){
@@ -169,21 +167,22 @@ usersRouter.patch("/updateUserInfo", async (req, res) => { // patch request inst
     try {
         const userId = req.query.id;
         let newInfo = req.body;
-        let new_pw = newInfo.password;
-        newInfo.password = new_pw;
 
-        const salt = bcrypt.genSaltSync(10)
-        const hash = await bcrypt.hash(new_pw, salt)
-        newInfo.password = hash
-
+        /* validating info with regex first before salt and hashing password */
         const validNewInfo = await RegexCheckForInputs(newInfo);
-
         if(validNewInfo.success === false){
             return res.status(400).send({
                 success: false, 
                 message: validNewInfo.message
             })
         }
+
+        let new_pw = newInfo.password;
+        const salt = bcrypt.genSaltSync(10)
+        const hash = await bcrypt.hash(new_pw, salt)
+        newInfo.password = hash
+
+
         /* update user info */
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId, 
