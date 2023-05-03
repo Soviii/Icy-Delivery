@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, InputGroup, FormControl, Modal } from "react-bootstrap";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PreviousOrders from "./PreviousOrders.js";
 
 const Account = () => {
     // const [isLoading, setLoading] = useState(true);
@@ -454,8 +453,6 @@ const Account = () => {
                 </Modal.Footer>
             </Modal>
 
-
-            <PreviousOrders  />
         </>
     );
 }

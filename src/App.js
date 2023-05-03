@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRouteUser/index';
 import Account from './components/AccountDetails/Account';
 import AdminLogin from './components/AdminComponents/AdminLogin';
 import TroubleTicketManagement from './components/AdminComponents/TroubleTicketManagement';
+import PreviousOrders from './components/AccountDetails/PreviousOrders';
 
 function App() {
   
@@ -65,6 +66,12 @@ function App() {
           <Route path='/create-account' element={
             <PrivateRoute pageToLoad={"create-account"}>
               <CreateAccount />
+            </PrivateRoute>
+          } />
+
+          <Route path='/my-orders' element={
+            <PrivateRoute>
+              <PreviousOrders />
             </PrivateRoute>
           } />
 
