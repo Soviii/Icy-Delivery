@@ -92,7 +92,7 @@ const PreviousOrders = () => {
 
     return (
         <>
-            <h2 style={{ textAlign: "center", marginTop: "100px" }}>Previous Orders</h2>
+            <h2 style={{ textAlign: "center", marginTop: "60px" }}>Previous Orders</h2>
             <div>
                 <Table striped bordered hover style={{ tableLayout: 'fixed' }}>
                     <colgroup>
